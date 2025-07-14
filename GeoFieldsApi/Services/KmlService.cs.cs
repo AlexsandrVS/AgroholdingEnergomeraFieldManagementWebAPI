@@ -7,25 +7,19 @@ namespace GeoFieldsApi.Services
     public class KmlService : IKmlService
     {
         private readonly List<Field> _fields;
-        private readonly ILogger<KmlService> _logger;
 
-        public KmlService(ILogger<KmlService> logger)
+        public KmlService()
         {
             _fields = new List<Field>();
-            _logger = logger;
         }
 
         public async Task InitializeAsync()
         {
             try
             {
-                // Load centroids
                 var centroids = await LoadCentroidsAsync("Data/centroids.kml");
-
-                // Load fields polygons
                 var polygons = await LoadPolygonsAsync("Data/fields.kml");
 
-                // Combine data
                 foreach (var centroid in centroids)
                 {
                     if (polygons.TryGetValue(centroid.Key, out var polygon))
@@ -45,11 +39,9 @@ namespace GeoFieldsApi.Services
                     }
                 }
 
-                _logger.LogInformation($"Loaded {_fields.Count} fields");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error initializing KML data");
                 throw;
             }
         }
@@ -60,7 +52,6 @@ namespace GeoFieldsApi.Services
 
             if (!File.Exists(filePath))
             {
-                _logger.LogWarning($"Centroids file not found: {filePath}");
                 return centroids;
             }
 
@@ -97,7 +88,6 @@ namespace GeoFieldsApi.Services
 
             if (!File.Exists(filePath))
             {
-                _logger.LogWarning($"Fields file not found: {filePath}");
                 return polygons;
             }
 
@@ -155,9 +145,8 @@ namespace GeoFieldsApi.Services
 
             area = Math.Abs(area) / 2.0;
 
-            // Convert to square meters (approximate)
-            // This is a simplified calculation - for production use proper geospatial libraries
-            return area * 111320 * 111320; // rough conversion from degrees to meters
+            // Примерные вичисления, лучше конечно библиотеку найти с расчётами
+            return area * 111320 * 111320;
         }
 
         public List<Field> GetAllFields() => _fields.ToList();
