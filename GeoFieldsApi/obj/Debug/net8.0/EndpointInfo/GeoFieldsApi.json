@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "GeoFieldsApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Fields": {
+      "get": {
+        "tags": [
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Field"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Field"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Field"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Fields/{id}/size": {
+      "get": {
+        "tags": [
+          "Fields"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Fields/{id}/distance": {
+      "post": {
+        "tags": [
+          "Fields"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Fields/point-in-field": {
+      "post": {
+        "tags": [
+          "Fields"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Field": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "size": {
+            "type": "number",
+            "format": "double"
+          },
+          "locations": {
+            "$ref": "#/components/schemas/FieldLocations"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FieldLocations": {
+        "type": "object",
+        "properties": {
+          "center": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "nullable": true
+          },
+          "polygon": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PointRequest": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
